@@ -128,6 +128,22 @@
     background-color: #f7f7f7;
 }
 
+.card .sub-information .category.netflix {
+    background-color: #b3010a;
+}
+
+.card .sub-information .category.youtube {
+    background-color: #4d4d4d;
+}
+
+.card .sub-information .category.prime {
+    background-color: #1468c2;
+}
+
+.card .sub-information .category.other {
+    background-color: #c47600;
+}
+
 .card .sub-information {
     display: flex;
     margin-top: 10px;
