@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -77,4 +77,34 @@ addForm.addEventListener("submit", event => {
         addForm.reset();
         showCard();
     })
+});
+
+
+function filteredCards(category) {
+    if(category === "all"){
+        showCard();
+    } else {
+        const qRef = query(colRef, where("category", "==", category));
+        cards.innerHTML = "";
+        getDocs(qRef)
+            .then(data => {
+                data.docs.forEach(document => {
+                    cards.innerHTML += generateTemplate(document.data(), document.id);
+                })
+                deleteEvent();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+const categoryList = document.querySelector(".category-list");
+const categorySpan = document.querySelectorAll(".category-list span");
+categoryList.addEventListener("click", event => {
+    if(event.target.tagName === "SPAN"){
+        filteredCards(event.target.innerHTML.toLowerCase());
+        categorySpan.forEach(span => span.classList.remove("active"));
+        event.target.classList.add("active");
+    }
 });
